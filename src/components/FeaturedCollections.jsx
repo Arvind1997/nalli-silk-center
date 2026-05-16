@@ -1,8 +1,10 @@
+'use client';
+
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { products } from '../data/products';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
@@ -43,7 +45,7 @@ export default function FeaturedCollections() {
           {products.map((product) => (
             <SwiperSlide key={product.id}>
               <div className="group relative bg-gray-50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-                <Link to={`/product/${product.id}`} className="block aspect-[3/4] overflow-hidden">
+                <Link href={`/product/${product.id}`} className="block aspect-[3/4] overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -59,7 +61,7 @@ export default function FeaturedCollections() {
                   <span className="text-xs text-red-700 font-semibold uppercase tracking-widest block mb-2">
                     {product.category}
                   </span>
-                  <Link to={`/product/${product.id}`} className="block">
+                  <Link href={`/product/${product.id}`} className="block">
                     <h3 className="text-lg font-serif font-bold text-gray-900 mb-2 group-hover:text-red-800 transition-colors truncate">
                       {product.name}
                     </h3>

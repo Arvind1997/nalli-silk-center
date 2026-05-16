@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../context/CartContext';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function Checkout() {
   const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
@@ -15,7 +17,7 @@ export default function Checkout() {
         <h2 className="text-2xl font-serif font-bold text-gray-900 mb-4">Your cart is empty</h2>
         <p className="text-gray-600 mb-8">Looks like you haven't added any silks yet.</p>
         <Link 
-          to="/" 
+          href="/"
           className="bg-red-800 text-white px-8 py-3 rounded-md hover:bg-red-900 transition-colors uppercase tracking-widest font-medium"
         >
           Start Shopping
