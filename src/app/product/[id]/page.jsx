@@ -1,12 +1,15 @@
+'use client';
+
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { products } from '../data/products';
-import { useCart } from '../context/CartContext';
+import { useParams, useRouter } from 'next/navigation';
+import { products } from '../../../data/products';
+import { useCart } from '../../../context/CartContext';
 import { ChevronRight, ShieldCheck, Truck, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { addToCart } = useCart();
   
   const product = products.find(p => p.id === parseInt(id));
@@ -17,7 +20,7 @@ export default function ProductDetail() {
         <div className="text-center">
           <h2 className="text-2xl font-serif mb-4">Product Not Found</h2>
           <button 
-            onClick={() => navigate('/')}
+            onClick={() => router.push('/')}
             className="text-red-800 hover:underline"
           >
             Back to Home
@@ -32,7 +35,7 @@ export default function ProductDetail() {
       <div className="container mx-auto px-4">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-8">
-          <button onClick={() => navigate('/')} className="hover:text-red-800">Home</button>
+          <button onClick={() => router.push('/')} className="hover:text-red-800">Home</button>
           <ChevronRight className="w-4 h-4" />
           <span className="hover:text-red-800">{product.category}</span>
           <ChevronRight className="w-4 h-4" />

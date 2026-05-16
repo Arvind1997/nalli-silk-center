@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
 import { ShoppingBag, Search, Menu, User, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -60,10 +62,10 @@ export default function Header() {
           {/* Navigation - Left Side */}
           <nav className="hidden lg:flex flex-1 items-center">
             <ul className="flex space-x-8 text-sm font-bold tracking-[0.1em] text-white uppercase">
-              <li><Link to="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">Home</Link></li>
-              <li><Link to="/" className="hover:text-yellow-400 transition-colors drop-shadow-md">Shop</Link></li>
-              <li><Link to="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">About Us</Link></li>
-              <li><Link to="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">Contact</Link></li>
+              <li><Link href="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">Home</Link></li>
+              <li><Link href="/" className="hover:text-yellow-400 transition-colors drop-shadow-md">Shop</Link></li>
+              <li><Link href="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">About Us</Link></li>
+              <li><Link href="/" className="hover:text-yellow-200 transition-colors drop-shadow-md">Contact</Link></li>
             </ul>
           </nav>
 
@@ -74,7 +76,7 @@ export default function Header() {
 
           {/* Custom Nalli Logo - Center */}
           <div className="flex-none flex justify-center px-6">
-            <Link to="/" className="relative group">
+            <Link href="/" className="relative group">
               <div className="bg-white px-7 py-2.5 rounded-sm border-[4px] border-white relative shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)] group-hover:scale-105 transition-transform duration-500 ease-out">
                 <div className="flex flex-col items-center">
                   <span className="text-3xl font-black tracking-tighter text-[#eb1d27] leading-none mb-0.5" style={{ fontFamily: 'ui-serif, Georgia, serif' }}>
@@ -110,12 +112,12 @@ export default function Header() {
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="hover:text-yellow-200 transition-colors hidden sm:block">
+                <Link href="/login" className="hover:text-yellow-200 transition-colors hidden sm:block">
                   <User className="w-5 h-5 drop-shadow-lg" />
                 </Link>
               )}
               
-              <Link to="/checkout" className="hover:text-yellow-200 transition-colors relative group flex items-center justify-center p-2 rounded-full hover:bg-white/10">
+              <Link href="/checkout" className="hover:text-yellow-200 transition-colors relative group flex items-center justify-center p-2 rounded-full hover:bg-white/10">
                 <ShoppingBag className="w-6 h-6 drop-shadow-lg" />
                 <span className="absolute -top-2 -right-2 bg-white text-[#eb1d27] text-[10px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-lg">
                   {cartCount}
