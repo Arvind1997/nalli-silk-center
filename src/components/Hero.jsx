@@ -43,6 +43,7 @@ export default function Hero() {
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
+        fadeEffect={{ crossFade: true }}
         speed={1000}
         autoplay={{
           delay: 5000,

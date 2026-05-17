@@ -1,14 +1,131 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
-import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Checkout() {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [shippingDetails, setShippingDetails] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    pinCode: '',
+    email: '',
+    phone: ''
+  });
+
   const shipping = cartTotal > 50000 ? 0 : 500;
   const total = cartTotal + shipping;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setShippingDetails(prev => ({ ...prev, [name]: value }));
+  };
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleCheckout = async () => {
+    // Basic validation
+    if (!shippingDetails.firstName || !shippingDetails.address || !shippingDetails.phone) {
+      alert("Please fill in the required shipping details.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await loadRazorpayScript();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        setLoading(false);
+        return;
+      }
+
+      // 1. Create order on server
+      const orderRes = await fetch('/api/razorpay/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: total }),
+      });
+      const orderData = await orderRes.json();
+
+      if (!orderRes.ok) throw new Error(orderData.error || "Failed to create order");
+
+      // 2. Open Razorpay Checkout
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Nalli Silk Center",
+        description: "Exquisite Handwoven Silks",
+        image: "/favicon.svg",
+        order_id: orderData.id,
+        handler: async function (response) {
+          try {
+            // 3. Verify payment on server
+            const verifyRes = await fetch('/api/razorpay/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                orderDetails: {
+                  total_amount: total,
+                  shipping_details: shippingDetails,
+                  items: cartItems
+                }
+              }),
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok) {
+              clearCart();
+              alert("Payment Successful! Order ID: " + verifyData.orderId);
+              router.push('/'); // Or a success page
+            } else {
+              alert("Payment verification failed: " + verifyData.message);
+            }
+          } catch (err) {
+            console.error("Verification error:", err);
+            alert("An error occurred during verification.");
+          } finally {
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: `${shippingDetails.firstName} ${shippingDetails.lastName}`,
+          email: shippingDetails.email,
+          contact: shippingDetails.phone,
+        },
+        theme: {
+          color: "#991b1b", // red-800
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("An error occurred during checkout. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -79,17 +196,21 @@ export default function Checkout() {
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <h2 className="text-xl font-bold mb-4 border-b pb-2 uppercase tracking-wide">Shipping Details</h2>
-              <form className="space-y-4">
+              <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="First Name" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
-                  <input type="text" placeholder="Last Name" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
+                  <input type="text" name="firstName" value={shippingDetails.firstName} onChange={handleInputChange} placeholder="First Name *" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" required />
+                  <input type="text" name="lastName" value={shippingDetails.lastName} onChange={handleInputChange} placeholder="Last Name" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
                 </div>
-                <input type="text" placeholder="Complete Address" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
+                <input type="text" name="address" value={shippingDetails.address} onChange={handleInputChange} placeholder="Complete Address *" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" required />
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="City" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
-                  <input type="text" placeholder="PIN Code" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
+                  <input type="text" name="city" value={shippingDetails.city} onChange={handleInputChange} placeholder="City *" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" required />
+                  <input type="text" name="pinCode" value={shippingDetails.pinCode} onChange={handleInputChange} placeholder="PIN Code *" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" required />
                 </div>
-              </form>
+                <div className="grid grid-cols-2 gap-4">
+                  <input type="email" name="email" value={shippingDetails.email} onChange={handleInputChange} placeholder="Email" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" />
+                  <input type="tel" name="phone" value={shippingDetails.phone} onChange={handleInputChange} placeholder="Phone Number *" className="w-full border p-2 rounded text-sm focus:ring-1 focus:ring-red-800 outline-none" required />
+                </div>
+              </div>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-sm h-fit">
@@ -111,8 +232,12 @@ export default function Checkout() {
                   <span>₹{total.toLocaleString('en-IN')}</span>
                 </div>
               </div>
-              <button className="w-full bg-red-800 text-white py-4 rounded-md hover:bg-red-900 transition-colors uppercase tracking-widest font-bold shadow-lg">
-                Complete Purchase
+              <button 
+                onClick={handleCheckout}
+                disabled={loading}
+                className="w-full bg-red-800 text-white py-4 rounded-md hover:bg-red-900 transition-colors uppercase tracking-widest font-bold shadow-lg flex items-center justify-center gap-2 disabled:bg-gray-400"
+              >
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Complete Purchase"}
               </button>
             </div>
           </div>

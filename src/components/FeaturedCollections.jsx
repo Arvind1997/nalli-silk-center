@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { products } from '../data/products';
+import { createClient } from '../lib/supabase';
 import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -15,6 +15,51 @@ import 'swiper/css/pagination';
 
 export default function FeaturedCollections() {
   const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const supabase = createClient();
+        if (!supabase) return;
+
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10);
+
+        if (error) throw error;
+        setProducts(data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 text-center text-gray-500">
+          Loading exquisite collections...
+        </div>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 text-center text-gray-500">
+          No products available at the moment.
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-white">
@@ -34,7 +79,7 @@ export default function FeaturedCollections() {
           spaceBetween={30}
           slidesPerView={1}
           navigation
-          pagination={{ clickable: true }}
+          pagination={{ type: 'fraction' }}
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
@@ -43,11 +88,11 @@ export default function FeaturedCollections() {
           className="product-swiper pb-12"
         >
           {products.map((product) => (
-            <SwiperSlide key={product.id}>
+            <SwiperSlide key={product.product_id}>
               <div className="group relative bg-gray-50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
-                <Link href={`/product/${product.id}`} className="block aspect-[3/4] overflow-hidden">
+                <Link href={`/product/${product.product_id}`} className="block aspect-[3/4] overflow-hidden">
                   <img
-                    src={product.image}
+                    src={product.cloudinary_image_url}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -58,10 +103,10 @@ export default function FeaturedCollections() {
                   </div>
                 </Link>
                 <div className="p-6">
-                  <span className="text-xs text-red-700 font-semibold uppercase tracking-widest block mb-2">
+                  <span className="text-xs text-red-700 font-semibold uppercase tracking-widest block mb-2">   
                     {product.category}
                   </span>
-                  <Link href={`/product/${product.id}`} className="block">
+                  <Link href={`/product/${product.product_id}`} className="block">
                     <h3 className="text-lg font-serif font-bold text-gray-900 mb-2 group-hover:text-red-800 transition-colors truncate">
                       {product.name}
                     </h3>
@@ -71,7 +116,13 @@ export default function FeaturedCollections() {
                       ₹{product.price.toLocaleString('en-IN')}
                     </p>
                     <button 
-                      onClick={() => addToCart(product)}
+                      onClick={() => addToCart({
+                        id: product.product_id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.cloudinary_image_url,
+                        category: product.category
+                      })}
                       className="p-2 rounded-full bg-red-800 text-white hover:bg-red-900 transition-colors shadow-md"
                       title="Add to Cart"
                     >

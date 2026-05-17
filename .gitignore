@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .next/
+
+# Secrets
+scripts/service_account.json

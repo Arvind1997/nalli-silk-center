@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { products } from '../../../data/products';
+import { createClient } from '../../../lib/supabase';
 import { useCart } from '../../../context/CartContext';
 import { ChevronRight, ShieldCheck, Truck, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
@@ -11,8 +11,51 @@ export default function ProductDetail() {
   const { id } = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
-  
-  const product = products.find(p => p.id === parseInt(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomPosition({ x, y });
+  };
+
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const supabase = createClient();
+        if (!supabase) return;
+
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('product_id', id)
+          .single();
+          
+        if (error) throw error;
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    if (id) {
+      fetchProduct();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-gray-500">Loading product details...</div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -43,13 +86,29 @@ export default function ProductDetail() {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Product Image */}
-          <div className="aspect-[4/5] bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+          {/* Product Image with Zoom */}
+          <div 
+            className="relative aspect-[4/5] bg-gray-100 rounded-lg overflow-hidden shadow-lg cursor-zoom-in"
+            onMouseEnter={() => setIsZoomed(true)}
+            onMouseLeave={() => setIsZoomed(false)}
+            onMouseMove={handleMouseMove}
+          >
             <img 
-              src={product.image} 
+              src={product.cloudinary_image_url} 
               alt={product.name} 
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover transition-transform duration-200 ease-out ${
+                isZoomed ? 'scale-[2.5]' : 'scale-100'
+              }`}
+              style={{
+                transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`
+              }}
             />
+            {/* Visual hint for zoom */}
+            {!isZoomed && (
+              <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-gray-900 shadow-sm pointer-events-none">
+                Hover to zoom
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
@@ -72,7 +131,13 @@ export default function ProductDetail() {
 
             <div className="space-y-4 pt-4">
               <button 
-                onClick={() => addToCart(product)}
+                onClick={() => addToCart({
+                  id: product.product_id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.cloudinary_image_url,
+                  category: product.category
+                })}
                 className="w-full bg-red-800 text-white py-4 rounded-md hover:bg-red-900 transition-colors uppercase tracking-widest font-bold shadow-md"
               >
                 Add to Cart

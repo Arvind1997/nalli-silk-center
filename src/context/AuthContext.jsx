@@ -62,8 +62,26 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const signUp = async (email, password) => {
+    if (supabase && supabase.auth) {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error('Error signing up:', error.message);
+        return { success: false, error: error.message };
+      }
+
+      // Supabase sends a confirmation email by default
+      return { success: true, error: null };
+    }
+    return { success: false, error: 'Supabase client not initialized' };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, signUp }}>
       {children}
     </AuthContext.Provider>
   );
