@@ -42,7 +42,7 @@ export default function ProductGrid({ title, category, limit = 8 }) {
   if (loading || products.length === 0) return null;
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100">
+    <section className="relative z-10 py-16 bg-white border-t border-gray-100">
       <div className="container mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>

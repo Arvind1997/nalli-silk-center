@@ -125,9 +125,21 @@ export default function ProductDetail() {
               </p>
             </div>
 
-            <p className="text-gray-600 leading-relaxed text-lg">
-              {product.description}
-            </p>
+            <div className="space-y-4">
+              <p className="text-gray-600 leading-relaxed text-lg">
+                {product.description}
+              </p>
+              {product.sub_description && (
+                <div className="bg-red-50/45 p-4 rounded-md border-l-4 border-red-800">
+                  <h4 className="text-[11px] uppercase tracking-wider font-bold text-red-900 mb-1">
+                    Weave & Appearance Details
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed text-sm font-light">
+                    {product.sub_description}
+                  </p>
+                </div>
+              )}
+            </div>
 
             <div className="space-y-4 pt-4">
               <button 

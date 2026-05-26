@@ -5,7 +5,8 @@ export const products = [
     price: 45000,
     category: "Kanchipuram",
     image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
-    description: "A masterpiece of handwoven silk, featuring intricate gold zari work and traditional motifs. Perfect for your special day."
+    description: "A masterpiece of handwoven silk, featuring intricate gold zari work and traditional motifs. Perfect for your special day.",
+    sub_description: "Deep crimson body with a heavy golden pallu, displaying traditional peacock and temple borders."
   },
   {
     id: 2,
@@ -13,7 +14,8 @@ export const products = [
     price: 32000,
     category: "Banarasi",
     image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
-    description: "Elegant royal blue Banarasi silk with silver floral buttas and a rich pallu."
+    description: "Elegant royal blue Banarasi silk with silver floral buttas and a rich pallu.",
+    sub_description: "Vibrant royal blue base with delicate silver floral buttas and an ornate zari border."
   },
   {
     id: 3,
@@ -21,7 +23,8 @@ export const products = [
     price: 12500,
     category: "Soft Silk",
     image: "https://images.unsplash.com/photo-1583391733958-d25e07fac66a?auto=format&fit=crop&w=800&q=80",
-    description: "Lightweight and graceful, this soft silk saree is ideal for evening gatherings and celebrations."
+    description: "Lightweight and graceful, this soft silk saree is ideal for evening gatherings and celebrations.",
+    sub_description: "Lustrous peach body with a subtle gold shimmer, lightweight fabric, and minimalist border."
   },
   {
     id: 4,
@@ -29,7 +32,8 @@ export const products = [
     price: 58000,
     category: "Kanchipuram",
     image: "https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?auto=format&fit=crop&w=800&q=80",
-    description: "Traditional temple border Kanchipuram silk with pure gold zari and heavy woven details."
+    description: "Traditional temple border Kanchipuram silk with pure gold zari and heavy woven details.",
+    sub_description: "Bright gold silk with heavy temple pattern border work in high-purity gold zari."
   },
   {
     id: 5,
@@ -37,7 +41,8 @@ export const products = [
     price: 65000,
     category: "Bridal",
     image: "https://images.unsplash.com/photo-1565127025114-e0b523e10260?auto=format&fit=crop&w=800&q=80",
-    description: "The ultimate bridal Kanchipuram in deep crimson, featuring intricate motifs and a grand pallu."
+    description: "The ultimate bridal Kanchipuram in deep crimson, featuring intricate motifs and a grand pallu.",
+    sub_description: "Rich crimson backdrop with extensive floral creepers and elephant motifs in gold thread."
   },
   {
     id: 6,
@@ -45,6 +50,7 @@ export const products = [
     price: 28000,
     category: "Banarasi",
     image: "https://images.unsplash.com/photo-1610030469668-93510009d50a?auto=format&fit=crop&w=800&q=80",
-    description: "Exquisite silver-toned Banarasi silk, blending tradition with modern aesthetics."
+    description: "Exquisite silver-toned Banarasi silk, blending tradition with modern aesthetics.",
+    sub_description: "Soft gray and silver dual-tone body with delicate floral jaal work in pure silver zari."
   }
 ];

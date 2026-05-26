@@ -25,6 +25,7 @@ CREATE TABLE public.products (
     sku TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
+    sub_description TEXT, -- Description of how the saree looks
     category TEXT NOT NULL, -- e.g., Kanchipuram, Banarasi
     price DECIMAL(10, 2) NOT NULL,
     stock_quantity INTEGER DEFAULT 1 NOT NULL,

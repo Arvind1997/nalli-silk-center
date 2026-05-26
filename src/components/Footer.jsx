@@ -2,12 +2,12 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
+    <footer className="relative z-10 bg-gray-900 text-gray-300 pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand & Location */}
           <div>
-            <h2 className="text-2xl font-serif text-white uppercase tracking-wider mb-6">
+            <h2 className="text-2xl uppercase tracking-wider mb-6 text-[#dfba6b]" style={{ fontFamily: "'Cinzel', Georgia, serif" }}>
               Nalli Silk Center
             </h2>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
@@ -26,7 +26,7 @@ export default function Footer() {
                 Dev Apartments, 18, Kasturba Nagar 3rd Cross St<br />
                 Old Narasingapuram, Kasturba Nagar, Adyar<br />
                 Chennai, Tamil Nadu 600020, India<br />
-                <span className="text-red-500 mt-2 inline-block group-hover:underline">View on Google Maps &rarr;</span>
+                <span className="text-[#dfba6b] mt-2 inline-block group-hover:underline">View on Google Maps &rarr;</span>
               </a>
             </div>
 
