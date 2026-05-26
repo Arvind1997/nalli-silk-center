@@ -58,11 +58,11 @@ export default function Header() {
           scrolled ? 'h-0 py-0 border-none opacity-0 overflow-hidden' : 'h-9 py-2'
         }`}
       >
-        <a href="mailto:parimalakupuswaming@gmail.com" className="hover:text-white transition-colors duration-300 font-medium">
+        <a href="mailto:parimalakupuswaming@gmail.com" className="hover:text-white transition-colors duration-300 font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>
           parimalakupuswaming@gmail.com
         </a>
         <span className="text-[#dfba6b]/30 hidden md:inline">|</span>
-        <a href="tel:+919361292459" className="hover:text-white transition-colors duration-300 font-medium">
+        <a href="tel:+919361292459" className="hover:text-white transition-colors duration-300 font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>
           +91 93612 92459
         </a>
       </div>
@@ -89,6 +89,7 @@ export default function Header() {
                   className={`bg-white/5 border border-[#dfba6b]/20 focus:border-[#dfba6b] focus:bg-white/10 rounded-full pl-9 pr-4 text-xs text-white placeholder-gray-400 focus:outline-none transition-all duration-300 ${
                     scrolled ? 'py-1 w-40 focus:w-52' : 'py-1.5 w-48 focus:w-60'
                   }`}
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
                 <Search className="w-4 h-4 text-[#dfba6b]/60 group-focus-within:text-[#dfba6b] absolute left-3 transition-colors duration-300" />
               </div>
@@ -98,9 +99,10 @@ export default function Header() {
             <div className="flex-none flex justify-center text-center">
               <Link href="/" className="flex flex-col items-center group">
                 <span 
-                  className={`font-display font-black tracking-[0.08em] text-[#dfba6b] leading-none transition-all duration-300 group-hover:scale-105 ${
+                  className={`font-extrabold tracking-[0.08em] text-[#dfba6b] leading-none transition-all duration-300 group-hover:scale-105 ${
                     scrolled ? 'text-2.5xl mb-0' : 'text-3.5xl lg:text-4xl mb-0.5'
                   }`} 
+                  style={{ fontFamily: "'Cinzel', Georgia, serif" }}
                 >
                   Nalli
                 </span>
@@ -108,7 +110,7 @@ export default function Header() {
                   className={`font-semibold tracking-[0.5em] text-[#dfba6b]/80 uppercase pt-0.5 border-t border-[#dfba6b]/20 text-center transition-all duration-300 ${
                     scrolled ? 'text-[7px] mt-0.5' : 'text-[8px] mt-1'
                   }`} 
-                  style={{ width: scrolled ? '80%' : '100%' }}
+                  style={{ fontFamily: "'Montserrat', sans-serif", width: scrolled ? '80%' : '100%' }}
                 >
                   Silk Centre
                 </span>
@@ -119,7 +121,7 @@ export default function Header() {
             <div className={`flex-1 flex items-center justify-end text-gray-200 transition-all duration-300 ${scrolled ? 'space-x-5' : 'space-x-6'}`}>
               {user ? (
                 <div className="flex items-center space-x-4">
-                  <span className="text-xs font-medium tracking-[0.1em] hidden md:block">Hello, {user.name}</span>
+                  <span className="text-xs font-medium tracking-[0.1em] hidden md:block" style={{ fontFamily: "'Montserrat', sans-serif" }}>Hello, {user.name}</span>
                   <button 
                     onClick={logout}
                     className="hover:text-[#dfba6b] transition-colors duration-300"
@@ -138,7 +140,7 @@ export default function Header() {
                 <ShoppingBag className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
                 <span 
                   className="absolute -top-0.5 -right-0.5 bg-[#dfba6b] text-[#1c0507] text-[11px] font-bold rounded-full flex items-center justify-center shadow-lg border border-[#1c0507]/10 transition-all duration-300 group-hover:scale-105"
-                  style={{ width: '22px', height: '22px' }}
+                  style={{ width: '22px', height: '22px', fontFamily: "'Montserrat', sans-serif" }}
                 >
                   {cartCount}
                 </span>
@@ -160,6 +162,7 @@ export default function Header() {
                 className={`flex text-xs font-semibold uppercase tracking-[0.25em] text-gray-200 transition-all duration-300 ${
                   scrolled ? 'space-x-8 text-[11px]' : 'space-x-12'
                 }`} 
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
                 <li>
                   <Link href="/" className="relative group py-2 block">
@@ -200,10 +203,10 @@ export default function Header() {
           </button>
 
           <Link href="/" className="flex flex-col items-center group">
-            <span className="text-2.5xl font-display font-black tracking-[0.08em] text-[#dfba6b] leading-none mb-0.5">
+            <span className="text-2.5xl font-extrabold tracking-[0.08em] text-[#dfba6b] leading-none mb-0.5" style={{ fontFamily: "'Cinzel', Georgia, serif" }}>
               Nalli
             </span>
-            <span className="text-[7px] font-semibold tracking-[0.3em] text-[#dfba6b]/80 uppercase pt-0.5 border-t border-[#dfba6b]/20 w-full text-center">
+            <span className="text-[7px] font-semibold tracking-[0.3em] text-[#dfba6b]/80 uppercase pt-0.5 border-t border-[#dfba6b]/20 w-full text-center" style={{ fontFamily: "'Montserrat', sans-serif" }}>
               Silk Centre
             </span>
           </Link>
@@ -212,7 +215,7 @@ export default function Header() {
             <ShoppingBag className="w-6 h-6" />
             <span 
               className="absolute -top-0.5 -right-0.5 bg-[#dfba6b] text-[#1c0507] text-[11px] font-bold rounded-full flex items-center justify-center shadow-lg border border-[#1c0507]/10"
-              style={{ width: '22px', height: '22px' }}
+              style={{ width: '22px', height: '22px', fontFamily: "'Montserrat', sans-serif" }}
             >
               {cartCount}
             </span>
@@ -235,10 +238,10 @@ export default function Header() {
             {/* Header / Brand in Drawer */}
             <div className="flex items-center justify-between pb-6 border-b border-[#dfba6b]/10">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-col">
-                <span className="text-2xl font-display font-bold tracking-[0.08em] text-[#dfba6b]">
+                <span className="text-2xl font-bold tracking-[0.08em] text-[#dfba6b]" style={{ fontFamily: "'Cinzel', Georgia, serif" }}>
                   Nalli
                 </span>
-                <span className="text-[7px] font-semibold tracking-[0.3em] text-[#dfba6b]/80 uppercase pt-0.5 border-t border-[#dfba6b]/20 mt-0.5">
+                <span className="text-[7px] font-semibold tracking-[0.3em] text-[#dfba6b]/80 uppercase pt-0.5 border-t border-[#dfba6b]/20 mt-0.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                   Silk Centre
                 </span>
               </Link>
@@ -256,13 +259,14 @@ export default function Header() {
                 type="text" 
                 placeholder="Search Sarees..." 
                 className="bg-white/5 border border-[#dfba6b]/20 focus:border-[#dfba6b] focus:bg-white/10 rounded-full py-2 pl-9 pr-4 text-xs text-white placeholder-gray-400 focus:outline-none transition-all duration-300 w-full"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}
               />
               <Search className="w-4 h-4 text-[#dfba6b]/60 absolute left-3" />
             </div>
 
             {/* Navigation links */}
             <nav className="mt-8">
-              <ul className="space-y-6 text-sm font-semibold tracking-[0.25em] text-gray-200 uppercase">
+              <ul className="space-y-6 text-sm font-semibold tracking-[0.25em] text-gray-200 uppercase" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                 <li>
                   <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 hover:text-[#dfba6b] transition-colors duration-300">
                     Home
@@ -309,11 +313,11 @@ export default function Header() {
 
           {/* Contact Details at bottom of Drawer */}
           <div className="border-t border-[#dfba6b]/10 pt-6 mt-auto">
-            <p className="text-[10px] text-[#dfba6b]/60 uppercase tracking-[0.15em] mb-2 font-medium">Contact Us</p>
-            <a href="mailto:parimalakupuswaming@gmail.com" className="block text-xs text-gray-300 hover:text-white mb-2 transition-colors duration-300">
+            <p className="text-[10px] text-[#dfba6b]/60 uppercase tracking-[0.15em] mb-2 font-medium" style={{ fontFamily: "'Montserrat', sans-serif" }}>Contact Us</p>
+            <a href="mailto:parimalakupuswaming@gmail.com" className="block text-xs text-gray-300 hover:text-white mb-2 transition-colors duration-300" style={{ fontFamily: "'Montserrat', sans-serif" }}>
               parimalakupuswaming@gmail.com
             </a>
-            <a href="tel:+919361292459" className="block text-xs text-gray-300 hover:text-white transition-colors duration-300">
+            <a href="tel:+919361292459" className="block text-xs text-gray-300 hover:text-white transition-colors duration-300" style={{ fontFamily: "'Montserrat', sans-serif" }}>
               +91 93612 92459
             </a>
           </div>

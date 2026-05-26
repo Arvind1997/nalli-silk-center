@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['"Open Sans"', 'Roboto', 'sans-serif'],
+        serif: ['Outfit', 'sans-serif'],
         display: ['Outfit', 'sans-serif'],
       },
     },

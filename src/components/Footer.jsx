@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand & Location */}
           <div>
-            <h2 className="text-2xl font-display font-bold uppercase tracking-wider mb-6 text-[#dfba6b]">
+            <h2 className="text-2xl uppercase tracking-wider mb-6 text-[#dfba6b]" style={{ fontFamily: "'Cinzel', Georgia, serif" }}>
               Nalli Silk Center
             </h2>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
