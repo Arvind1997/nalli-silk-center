@@ -2,12 +2,16 @@ import React from 'react';
 import Hero from '../components/Hero';
 import FeaturedCollections from '../components/FeaturedCollections';
 import ProductGrid from '../components/ProductGrid';
+import PromoSection from '../components/PromoSection';
 
 export default function Home() {
   return (
     <>
       <Hero />
       <FeaturedCollections />
+      
+      {/* Summer Sale Promo Section */}
+      <PromoSection />
       
       {/* Silk Sarees Section */}
       <ProductGrid 
